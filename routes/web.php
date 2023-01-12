@@ -30,3 +30,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/update', 'update');
     });
 });
+
+Route::get("/", [\App\Http\Controllers\HomeController::class, 'index']);
