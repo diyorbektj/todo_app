@@ -36,7 +36,12 @@
             @foreach($todo as $item)
                 <div class="card mt-2">
                     <div class="p-2" style="height: auto; display: flex; justify-content: space-between">
-                        <p style="font-size: 16px;">{{ $item->todo  }}</p>
+                        <div style="display:flex; justify-content: space-between">
+                            @if($item->image)
+                                <p class=""><img src="{{$item->image}}"></p>
+                            @endif
+                            <p style="font-size: 16px;padding-left: 10px">{{ $item->todo  }}</p>
+                        </div>
                         <div>
                         @foreach($item->tags as $tag)
                             <p class="btn btn-light">{{$tag->tag}}</p>
@@ -59,12 +64,19 @@
                     <h4 class="modal-title" id="modelHeading"></h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('todo.create') }}" method="POST" id="handleAjax">
+                    <form action="{{ route('todo.create') }}" method="POST" id="handleAjax" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Todo</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="todo" name="todo" placeholder="Enter Name" value="" maxlength="50" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image" class="col-sm-2 control-label">Image</label>
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control" id="image" name="image" >
                             </div>
                         </div>
 
@@ -169,30 +181,21 @@
 
 
 
-            $(document).on("submit", "#handleAjax", function() {
-                var e = this;
-
+                $('#handleAjax').on('submit', function(event){
+                    event.preventDefault();
                 $.ajax({
-
                     url: $(this).attr('action'),
-
-                    data: $(this).serialize(),
-
-                    type: "POST",
-                    Accept:  'application/json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json',
-
+                    method: 'POST',
+                    data: new FormData(this),
+                    dataType: 'JSON',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
                     success: function (data) {
-
-                        $(e).find("[type='submit']").html("Submitting");
-
-
+                        $(this).find("[type='submit']").html("Submitting");
 
                         if (data) {
-                            $(e).find("[type='submit']").html("+");
+                            $(this).find("[type='submit']").html("+");
                             $("#todolist").append('<div class="card mt-2">'+
                             '<div class="p-2" style="height: auto; display: flex; justify-content: space-between">'+
                                 '<p style="font-size: 16px;">'+ data.todo + '</p>'+

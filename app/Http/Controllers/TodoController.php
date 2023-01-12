@@ -35,10 +35,30 @@ class TodoController extends Controller
 
     public function store(TodoRequest $request)
     {
-        $todo = Todo::query()->create([
-            'todo' => $request->todo,
-            'user_id' => auth()->id() ?? 1,
-        ]);
+        $todo = new Todo();
+
+        if ($request->has('image')){
+            $image = $request->file('image');
+
+            $imageName = time().'.'.$image->extension();
+
+
+
+            $destinationPathThumbnail = public_path('/thumbnail');
+
+            $img = \Image::make($image->path());
+
+            $img->resize(150, 150, function ($constraint) {
+
+                $constraint->aspectRatio();
+
+            })->save($destinationPathThumbnail.'/'.$imageName);
+        $todo->image = '/thumbnail/'.$imageName;
+        }
+        $todo->todo= $request->todo;
+        $todo->user_id = auth()->id();
+        $todo->save();
+
         foreach ($request->tags as $item) {
             TodoTag::query()->create([
                 'todo_id' => $todo->id,

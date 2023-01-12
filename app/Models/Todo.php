@@ -12,6 +12,7 @@ class Todo extends Model
     protected $fillable = [
         'todo',
         'user_id',
+        'image'
     ];
 
     public function tags()

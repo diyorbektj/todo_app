@@ -26,6 +26,7 @@ class TodoRequest extends FormRequest
         return [
             'todo' => 'required|string|min:2',
             'tags' => 'required',
+            'image' => 'image|mimes:jpg,jpeg,png,gif,svg|max:2048',
         ];
     }
 }
