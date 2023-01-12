@@ -25,7 +25,7 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => 'string|min:3',
-            'email' => 'string|email'
+            'email' => 'string|email',
         ];
     }
 }

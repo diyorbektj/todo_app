@@ -37,25 +37,21 @@ class TodoController extends Controller
     {
         $todo = new Todo();
 
-        if ($request->has('image')){
+        if ($request->has('image')) {
             $image = $request->file('image');
 
             $imageName = time().'.'.$image->extension();
-
-
 
             $destinationPathThumbnail = public_path('/thumbnail');
 
             $img = \Image::make($image->path());
 
             $img->resize(150, 150, function ($constraint) {
-
                 $constraint->aspectRatio();
-
             })->save($destinationPathThumbnail.'/'.$imageName);
-        $todo->image = '/thumbnail/'.$imageName;
+            $todo->image = '/thumbnail/'.$imageName;
         }
-        $todo->todo= $request->todo;
+        $todo->todo = $request->todo;
         $todo->user_id = auth()->id();
         $todo->save();
 

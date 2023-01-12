@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -16,12 +16,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateProfileRequest $request)
     {
-        User::query()->find($id)->update([
+        User::query()->find(\auth()->id())->update([
             'name' => $request->name,
-            'email' => $request->email
+            'email' => $request->email,
         ]);
-        return response()->json(["message" => "Successful updateted"]);
+
+        return response()->json(['message' => 'Successful updateted']);
     }
 }

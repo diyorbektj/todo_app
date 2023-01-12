@@ -31,4 +31,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get("/", [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
