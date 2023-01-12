@@ -25,7 +25,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::get('/logout', 'logout')->name('logout');
     Route::get('/logined', 'logined')->name('logined');
 });
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
     Route::post('/todo/create', [\App\Http\Controllers\TodoController::class, 'store'])->name('todo.create')->middleware('auth');
     Route::post('/users/update', [\App\Http\Controllers\UserController::class, 'update']);
 });
