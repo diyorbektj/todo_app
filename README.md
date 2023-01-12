@@ -1,7 +1,7 @@
 ## Установка и настройка проект
 
-- `git clone `
-- `cd project_name`
+- `git clone https://github.com/diyorbektj/todo_app.git`
+- `cd todo_app`
 - `composer install`
 - `php artisan migrate`
 - `php artisan key:generate`
